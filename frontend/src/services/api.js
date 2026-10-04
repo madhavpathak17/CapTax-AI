@@ -7,6 +7,21 @@ const api = axios.create({
   },
 })
 
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('captax_token')
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+
 export const registerUser = async (userData) => {
   const response = await api.post('/auth/register', userData)
   return response.data

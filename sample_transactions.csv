@@ -1,0 +1,6 @@
+date,symbol,asset_type,transaction_type,quantity,price,currency,broker
+2026-01-10,AAPL,STOCK,BUY,10,240,USD,Interactive Brokers
+2026-02-15,AAPL,STOCK,BUY,5,250,USD,Interactive Brokers
+2026-03-05,MSFT,STOCK,BUY,8,410,USD,Interactive Brokers
+2026-06-20,AAPL,STOCK,SELL,8,280,USD,Interactive Brokers
+2026-07-10,MSFT,STOCK,SELL,3,450,USD,Interactive Brokers
