@@ -97,6 +97,19 @@ The system can provide information such as:
 - Transaction summaries
 - Portfolio-related statistics
 
+## Supported Transaction Data
+
+CapTax AI processes investment transaction records containing:
+
+- Transaction date
+- Asset symbol
+- Asset type
+- Buy or sell transaction type
+- Quantity
+- Price
+- Currency
+- Broker namegit status
+
 ## Authentication
 
 CapTax AI uses JWT-based authentication to protect user-specific application data.
