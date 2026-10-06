@@ -122,6 +122,12 @@ The calculation workflow includes:
 - Determining realized capital gains or losses
 - Maintaining remaining quantities for future transaction matching
 
+## Project Development Workflow
+
+The project follows a modular development workflow where frontend, backend, data processing, and tax calculation components are developed and tested separately.
+
+Each major feature is integrated into the main application after validation to maintain a reliable and organized codebase.
+
 ## Authentication
 
 CapTax AI uses JWT-based authentication to protect user-specific application data.
