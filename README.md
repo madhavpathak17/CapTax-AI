@@ -110,6 +110,18 @@ CapTax AI processes investment transaction records containing:
 - Currency
 - Broker namegit status
 
+## Capital Gains Processing
+
+CapTax AI processes buy and sell transactions using FIFO (First-In, First-Out) matching.
+
+The calculation workflow includes:
+
+- Matching sell transactions with the earliest available buy transactions
+- Calculating the acquisition cost of matched units
+- Calculating the selling value of assets
+- Determining realized capital gains or losses
+- Maintaining remaining quantities for future transaction matching
+
 ## Authentication
 
 CapTax AI uses JWT-based authentication to protect user-specific application data.
