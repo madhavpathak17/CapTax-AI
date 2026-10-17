@@ -15,6 +15,18 @@ The React Compiler is not enabled on this template because of its impact on dev 
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
 
+## Security and Data Handling
+
+CapTax AI separates authentication, transaction processing, and tax analytics into dedicated modules.
+
+Key considerations include:
+
+- User authentication through the backend API
+- Validation of uploaded transaction data
+- Separation of frontend and backend responsibilities
+- Exclusion of environment files and generated Python cache files from version control
+- Clear separation between calculated estimates and final tax filing decisions
+
 
 Team Members:
 - Madhav Pathak
