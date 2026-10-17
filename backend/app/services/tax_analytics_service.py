@@ -241,54 +241,46 @@ def calculate_tax_analytics(user_id):
 
     database = get_database()
 
+    # Keep foreign dividends and foreign taxes separated by their original currency.
+    # Never add USD, EUR, GBP, etc. together into one unlabeled number.
     foreign_asset_summary = list(
         database["foreign_assets"].aggregate(
             [
-                {
-                    "$match": {
-                        "user_id": user_id
-                    }
-                },
+                {"$match": {"user_id": user_id}},
                 {
                     "$group": {
-                        "_id": None,
-                        "dividend_income": {
-                            "$sum": {
-                                "$ifNull": [
-                                    "$dividend_income",
-                                    0,
-                                ]
+                        "_id": {
+                            "$toUpper": {
+                                "$ifNull": ["$currency", "USD"]
                             }
                         },
+                        "dividend_income": {
+                            "$sum": {"$ifNull": ["$dividend_income", 0]}
+                        },
                         "foreign_tax_paid": {
-                            "$sum": {
-                                "$ifNull": [
-                                    "$tax_paid",
-                                    0,
-                                ]
-                            }
+                            "$sum": {"$ifNull": ["$foreign_tax_paid", 0]}
                         },
                     }
                 },
+                {"$sort": {"_id": 1}},
             ]
         )
     )
 
-    dividend_income = Decimal("0")
-    foreign_tax_paid = Decimal("0")
+    foreign_currency_totals = [
+        {
+            "currency": item["_id"],
+            "dividend_income": float(_money(item.get("dividend_income", 0))),
+            "foreign_tax_paid": float(_money(item.get("foreign_tax_paid", 0))),
+        }
+        for item in foreign_asset_summary
+    ]
 
-    if foreign_asset_summary:
-        dividend_income = _money(
-            foreign_asset_summary[0].get(
-                "dividend_income", 0
-            )
-        )
-
-        foreign_tax_paid = _money(
-            foreign_asset_summary[0].get(
-                "foreign_tax_paid", 0
-            )
-        )
+    # Legacy numeric fields remain zero unless there is exactly one currency.
+    # The frontend should display foreign_currency_totals for all cases.
+    single_currency = foreign_currency_totals[0] if len(foreign_currency_totals) == 1 else None
+    dividend_income = Decimal(str(single_currency["dividend_income"])) if single_currency else Decimal("0")
+    foreign_tax_paid = Decimal(str(single_currency["foreign_tax_paid"])) if single_currency else Decimal("0")
 
     return {
         "total_cost_basis_inr": float(
@@ -330,6 +322,7 @@ def calculate_tax_analytics(user_id):
         "foreign_tax_paid": float(
             foreign_tax_paid
         ),
+        "foreign_currency_totals": foreign_currency_totals,
         "matched_transactions": len(
             detailed_matches
         ),

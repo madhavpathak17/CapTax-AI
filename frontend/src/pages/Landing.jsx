@@ -9,7 +9,7 @@ import Footer from '../components/landing/Footer'
 
 function Landing() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#08090b] text-[#e7e9ed]">
+    <main className="landing-root min-h-screen overflow-hidden bg-white text-slate-900 transition-colors duration-200 dark:bg-[#08090b] dark:text-white">
       <Navbar />
       <Hero />
       <Features />

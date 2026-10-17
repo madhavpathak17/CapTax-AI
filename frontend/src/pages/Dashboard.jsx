@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import {
   ArrowRight,
   BarChart3,
@@ -9,6 +10,7 @@ import {
   TrendingUp,
   WalletCards,
 } from 'lucide-react'
+
 import { useNavigate } from 'react-router-dom'
 
 import api from '../services/api'
@@ -27,9 +29,7 @@ function Dashboard() {
 
 
   const loadDashboard = async () => {
-
     try {
-
       setLoading(true)
       setError('')
 
@@ -41,7 +41,6 @@ function Dashboard() {
       setData(response.data)
 
     } catch (error) {
-
       console.error(
         'Failed to load dashboard:',
         error
@@ -53,9 +52,7 @@ function Dashboard() {
       )
 
     } finally {
-
       setLoading(false)
-
     }
   }
 
@@ -66,7 +63,7 @@ function Dashboard() {
 
 
   return (
-    <div className="min-h-screen bg-[#080a0c] px-6 py-10 text-white lg:px-10">
+    <div className="min-h-screen bg-[var(--bg-primary)] px-6 py-10 text-[var(--text-primary)] transition-colors duration-200 lg:px-10">
 
       <div className="mx-auto max-w-7xl">
 
@@ -76,15 +73,15 @@ function Dashboard() {
 
           <div>
 
-            <p className="text-sm font-medium text-emerald-400">
+            <p className="text-sm font-medium text-[var(--accent)]">
               Overview
             </p>
 
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--text-primary)]">
               Dashboard
             </h1>
 
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-[var(--text-secondary)]">
               Monitor your portfolio, capital gains and foreign assets.
             </p>
 
@@ -94,7 +91,7 @@ function Dashboard() {
           <button
             onClick={loadDashboard}
             disabled={loading}
-            className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-slate-300 transition hover:bg-white/[0.08] disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)] transition hover:bg-[var(--surface-hover)] disabled:opacity-60"
           >
 
             <RefreshCw
@@ -114,7 +111,7 @@ function Dashboard() {
 
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-400/20 bg-red-400/10 px-5 py-4 text-sm text-red-300">
+          <div className="mt-6 rounded-xl border border-red-400/20 bg-red-400/10 px-5 py-4 text-sm text-red-500 dark:text-red-300">
             {error}
           </div>
         )}
@@ -136,6 +133,7 @@ function Dashboard() {
             }
           />
 
+
           <StatCard
             label="Net Capital Gain"
             value={
@@ -155,6 +153,7 @@ function Dashboard() {
             }
           />
 
+
           <StatCard
             label="Foreign Assets"
             value={
@@ -164,6 +163,7 @@ function Dashboard() {
               <Globe2 size={18} />
             }
           />
+
 
           <StatCard
             label="Remaining Holdings"
@@ -189,12 +189,14 @@ function Dashboard() {
             }
           />
 
+
           <MiniCard
             label="Sell Orders"
             value={
               data?.sell_transactions ?? 0
             }
           />
+
 
           <MiniCard
             label="Total Gains"
@@ -205,6 +207,7 @@ function Dashboard() {
             }
             positive
           />
+
 
           <MiniCard
             label="Total Losses"
@@ -223,17 +226,17 @@ function Dashboard() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
 
-          <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+          <section className="rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] p-6 shadow-sm transition-colors duration-200">
 
             <div className="flex items-start justify-between">
 
               <div>
 
-                <p className="text-sm font-medium text-slate-300">
+                <p className="text-sm font-medium text-[var(--text-primary)]">
                   Capital Gains
                 </p>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 text-sm text-[var(--text-muted)]">
                   Current FIFO-based gain distribution.
                 </p>
 
@@ -241,7 +244,7 @@ function Dashboard() {
 
               <BarChart3
                 size={19}
-                className="text-emerald-400"
+                className="text-[var(--accent)]"
               />
 
             </div>
@@ -258,6 +261,7 @@ function Dashboard() {
                   data?.total_gain ?? 0
                 }
               />
+
 
               <ProgressRow
                 label="Long-Term Gains"
@@ -278,7 +282,7 @@ function Dashboard() {
                   '/capital-gains'
                 )
               }
-              className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-emerald-400 transition hover:text-emerald-300"
+              className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition hover:text-[var(--accent-light)]"
             >
 
               View Capital Gains
@@ -290,17 +294,17 @@ function Dashboard() {
           </section>
 
 
-          <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+          <section className="rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] p-6 shadow-sm transition-colors duration-200">
 
             <div className="flex items-start justify-between">
 
               <div>
 
-                <p className="text-sm font-medium text-slate-300">
+                <p className="text-sm font-medium text-[var(--text-primary)]">
                   Foreign Asset Exposure
                 </p>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 text-sm text-[var(--text-muted)]">
                   Values recorded in their original currencies.
                 </p>
 
@@ -308,7 +312,7 @@ function Dashboard() {
 
               <Globe2
                 size={19}
-                className="text-emerald-400"
+                className="text-[var(--accent)]"
               />
 
             </div>
@@ -319,36 +323,31 @@ function Dashboard() {
               <Metric
                 label="Current Value"
                 value={
-                  formatAmount(
-                    data?.foreign_current_value
-                  )
+                  formatForeignCurrencyBreakdown(data, 'current_value')
                 }
               />
+
 
               <Metric
                 label="Peak Value"
                 value={
-                  formatAmount(
-                    data?.foreign_peak_value
-                  )
+                  formatForeignCurrencyBreakdown(data, 'peak_value')
                 }
               />
+
 
               <Metric
                 label="Dividends"
                 value={
-                  formatAmount(
-                    data?.foreign_dividend_income
-                  )
+                  formatForeignCurrencyBreakdown(data, 'dividend_income')
                 }
               />
+
 
               <Metric
                 label="Foreign Tax Paid"
                 value={
-                  formatAmount(
-                    data?.foreign_tax_paid
-                  )
+                  formatForeignCurrencyBreakdown(data, 'foreign_tax_paid')
                 }
               />
 
@@ -361,7 +360,7 @@ function Dashboard() {
                   '/foreign-assets'
                 )
               }
-              className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-emerald-400 transition hover:text-emerald-300"
+              className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] transition hover:text-[var(--accent-light)]"
             >
 
               Manage Foreign Assets
@@ -377,15 +376,15 @@ function Dashboard() {
 
         {/* Quick Actions */}
 
-        <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+        <section className="mt-8 rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] p-6 shadow-sm transition-colors duration-200">
 
           <div>
 
-            <p className="font-semibold">
+            <p className="font-semibold text-[var(--text-primary)]">
               Quick Actions
             </p>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-[var(--text-muted)]">
               Continue managing your CapTax AI workspace.
             </p>
 
@@ -409,6 +408,7 @@ function Dashboard() {
               }
             />
 
+
             <ActionButton
               icon={
                 <TrendingUp
@@ -423,6 +423,7 @@ function Dashboard() {
                 )
               }
             />
+
 
             <ActionButton
               icon={
@@ -458,28 +459,28 @@ function StatCard({
 }) {
 
   let valueClass =
-    'text-white'
+    'text-[var(--text-primary)]'
 
   if (accent === 'positive') {
     valueClass =
-      'text-emerald-400'
+      'text-emerald-600 dark:text-emerald-400'
   }
 
   if (accent === 'negative') {
     valueClass =
-      'text-red-400'
+      'text-red-600 dark:text-red-400'
   }
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+    <div className="rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] p-5 shadow-sm transition-colors duration-200">
 
       <div className="flex items-center justify-between">
 
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-[var(--text-muted)]">
           {label}
         </p>
 
-        <div className="text-slate-500">
+        <div className="text-[var(--text-muted)]">
           {icon}
         </div>
 
@@ -504,22 +505,22 @@ function MiniCard({
 }) {
 
   let valueClass =
-    'text-white'
+    'text-[var(--text-primary)]'
 
   if (positive) {
     valueClass =
-      'text-emerald-400'
+      'text-emerald-600 dark:text-emerald-400'
   }
 
   if (negative) {
     valueClass =
-      'text-red-400'
+      'text-red-600 dark:text-red-400'
   }
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+    <div className="rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] p-5 shadow-sm transition-colors duration-200">
 
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-[var(--text-muted)]">
         {label}
       </p>
 
@@ -551,25 +552,27 @@ function ProgressRow({
         )
       : 0
 
+
   return (
     <div>
 
       <div className="flex items-center justify-between">
 
-        <span className="text-sm text-slate-400">
+        <span className="text-sm text-[var(--text-secondary)]">
           {label}
         </span>
 
-        <span className="text-sm font-medium text-slate-300">
+        <span className="text-sm font-medium text-[var(--text-primary)]">
           {formatAmount(value)}
         </span>
 
       </div>
 
-      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+
+      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-black/10 dark:bg-white/[0.06]">
 
         <div
-          className="h-full rounded-full bg-emerald-400 transition-all duration-500"
+          className="h-full rounded-full bg-[var(--accent)] transition-all duration-500"
           style={{
             width: `${percentage}%`,
           }}
@@ -590,11 +593,11 @@ function Metric({
   return (
     <div>
 
-      <p className="text-xs uppercase tracking-wider text-slate-500">
+      <p className="text-xs uppercase tracking-wider text-[var(--text-muted)]">
         {label}
       </p>
 
-      <p className="mt-2 text-lg font-semibold text-white">
+      <p className="mt-2 text-lg font-semibold text-[var(--text-primary)]">
         {value}
       </p>
 
@@ -613,20 +616,20 @@ function ActionButton({
   return (
     <button
       onClick={onClick}
-      className="group flex items-start gap-4 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-left transition hover:border-white/20 hover:bg-white/[0.05]"
+      className="group flex items-start gap-4 rounded-xl border border-[var(--border-primary)] bg-[var(--surface-secondary)] p-4 text-left transition hover:border-[var(--border-primary)] hover:bg-[var(--surface-hover)]"
     >
 
-      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-emerald-400">
+      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--border-primary)] bg-[var(--surface-hover)] text-[var(--accent)]">
         {icon}
       </div>
 
       <div>
 
-        <p className="text-sm font-medium text-white">
+        <p className="text-sm font-medium text-[var(--text-primary)]">
           {title}
         </p>
 
-        <p className="mt-1 text-xs leading-5 text-slate-500">
+        <p className="mt-1 text-xs leading-5 text-[var(--text-muted)]">
           {description}
         </p>
 
@@ -637,16 +640,42 @@ function ActionButton({
 }
 
 
-function formatAmount(value) {
+const currencySymbols = {
+  INR: '₹',
+  USD: '$',
+  EUR: '€',
+  GBP: '£',
+  JPY: '¥',
+  AUD: 'A$',
+  CAD: 'C$',
+  SGD: 'S$',
+  CHF: 'CHF ',
+}
 
-  if (
-    value === undefined ||
-    value === null
-  ) {
-    return '0.00'
+function formatAmount(value) {
+  const amount = Number(value ?? 0)
+
+  return `$${amount.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`
+}
+
+function formatForeignCurrencyBreakdown(data, field) {
+  const totals = data?.foreign_currency_totals || []
+
+  if (totals.length === 0) {
+    return '—'
   }
 
-  return Number(value).toFixed(2)
+  return totals.map((item) => {
+    const symbol = currencySymbols[item.currency] ?? `${item.currency} `
+    const amount = Number(item[field] ?? 0).toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+    return `${symbol}${amount}`
+  }).join(' · ')
 }
 
 

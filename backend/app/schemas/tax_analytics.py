@@ -31,6 +31,12 @@ class TaxAnalyticsMatch(BaseModel):
     classification: str
 
 
+class ForeignCurrencyTotal(BaseModel):
+    currency: str
+    dividend_income: float
+    foreign_tax_paid: float
+
+
 class TaxAnalyticsResponse(BaseModel):
     total_cost_basis_inr: float
     total_sale_value_inr: float
@@ -47,6 +53,7 @@ class TaxAnalyticsResponse(BaseModel):
 
     foreign_dividend_income: float
     foreign_tax_paid: float
+    foreign_currency_totals: List[ForeignCurrencyTotal] = []
 
     matched_transactions: int
 

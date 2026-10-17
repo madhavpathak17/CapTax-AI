@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import {
   ArrowLeft,
   Building2,
@@ -8,9 +9,32 @@ import {
   RefreshCw,
   Trash2,
 } from 'lucide-react'
+
 import { useNavigate } from 'react-router-dom'
 
 import api from '../services/api'
+
+
+const currencySymbols = {
+  INR: '₹',
+  USD: '$',
+  EUR: '€',
+  GBP: '£',
+  JPY: '¥',
+  AUD: 'A$',
+  CAD: 'C$',
+  SGD: 'S$',
+  CHF: 'CHF ',
+}
+
+const formatAssetCurrency = (value, currency = 'USD') => {
+  const symbol = currencySymbols[currency] ?? `${currency} `
+
+  return `${symbol}${Number(value ?? 0).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`
+}
 
 
 const initialForm = {
@@ -33,9 +57,8 @@ function ForeignAssets() {
   const [assets, setAssets] = useState([])
   const [summary, setSummary] = useState(null)
 
-  const [form, setForm] = useState(
-    initialForm
-  )
+  const [form, setForm] =
+    useState(initialForm)
 
   const [editingId, setEditingId] =
     useState(null)
@@ -58,7 +81,6 @@ function ForeignAssets() {
 
   const loadAssets = async () => {
     try {
-
       setLoading(true)
       setError('')
 
@@ -74,7 +96,6 @@ function ForeignAssets() {
       setSummary(response.data)
 
     } catch (error) {
-
       console.error(
         'Failed to load foreign assets:',
         error
@@ -86,9 +107,7 @@ function ForeignAssets() {
       )
 
     } finally {
-
       setLoading(false)
-
     }
   }
 
@@ -99,7 +118,6 @@ function ForeignAssets() {
 
 
   const handleChange = (event) => {
-
     const {
       name,
       value,
@@ -115,11 +133,8 @@ function ForeignAssets() {
 
 
   const resetForm = () => {
-
     setForm(initialForm)
-
     setEditingId(null)
-
     setShowForm(false)
   }
 
@@ -127,7 +142,6 @@ function ForeignAssets() {
   const handleSubmit = async (
     event
   ) => {
-
     event.preventDefault()
 
     setSaving(true)
@@ -135,32 +149,22 @@ function ForeignAssets() {
     setMessage('')
 
     try {
-
       const payload = {
         asset_name: form.asset_name,
-
         asset_type: form.asset_type,
-
         country: form.country,
-
         institution: form.institution,
-
         currency: form.currency,
-
         acquisition_date:
           form.acquisition_date,
-
         peak_value:
           Number(form.peak_value),
-
         current_value:
           Number(form.current_value),
-
         dividend_income:
           Number(
             form.dividend_income || 0
           ),
-
         foreign_tax_paid:
           Number(
             form.foreign_tax_paid || 0
@@ -169,7 +173,6 @@ function ForeignAssets() {
 
 
       if (editingId) {
-
         await api.put(
           `/foreign-assets/${editingId}`,
           payload
@@ -180,7 +183,6 @@ function ForeignAssets() {
         )
 
       } else {
-
         await api.post(
           '/foreign-assets/',
           payload
@@ -197,7 +199,6 @@ function ForeignAssets() {
       await loadAssets()
 
     } catch (error) {
-
       console.error(
         'Failed to save foreign asset:',
         error
@@ -209,15 +210,12 @@ function ForeignAssets() {
       )
 
     } finally {
-
       setSaving(false)
-
     }
   }
 
 
   const handleEdit = (asset) => {
-
     setEditingId(asset.id)
 
     setForm({
@@ -273,7 +271,6 @@ function ForeignAssets() {
   const handleDelete = async (
     assetId
   ) => {
-
     const confirmed =
       window.confirm(
         'Delete this foreign asset?'
@@ -284,7 +281,6 @@ function ForeignAssets() {
     }
 
     try {
-
       setError('')
       setMessage('')
 
@@ -299,7 +295,6 @@ function ForeignAssets() {
       await loadAssets()
 
     } catch (error) {
-
       setError(
         error.response?.data?.detail ||
         'Unable to delete foreign asset.'
@@ -309,9 +304,11 @@ function ForeignAssets() {
 
 
   return (
-    <div className="min-h-screen bg-[#080a0c] px-6 py-10 text-white lg:px-10">
+    <div className="min-h-screen bg-[var(--bg-primary)] px-6 py-10 text-[var(--text-primary)] transition-colors duration-200 lg:px-10">
 
       <div className="mx-auto max-w-7xl">
+
+        {/* Header */}
 
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
 
@@ -321,22 +318,25 @@ function ForeignAssets() {
               onClick={() =>
                 navigate('/dashboard')
               }
-              className="mb-5 inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white"
+              className="mb-5 inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] transition hover:text-[var(--text-primary)]"
             >
               <ArrowLeft size={16} />
 
               Back to Dashboard
             </button>
 
-            <p className="text-sm font-medium text-emerald-400">
+
+            <p className="text-sm font-medium text-[var(--accent)]">
               Compliance
             </p>
 
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--text-primary)]">
               Foreign Assets
             </h1>
 
-            <p className="mt-2 text-sm text-slate-400">
+
+            <p className="mt-2 text-sm text-[var(--text-secondary)]">
               Track foreign investments and disclosure-related information.
             </p>
 
@@ -349,7 +349,7 @@ function ForeignAssets() {
               setForm(initialForm)
               setShowForm(true)
             }}
-            className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-[#080a0c] transition hover:bg-slate-200"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--text-primary)] px-5 py-3 text-sm font-semibold text-[var(--bg-primary)] transition hover:opacity-85"
           >
             <Plus size={16} />
 
@@ -359,37 +359,41 @@ function ForeignAssets() {
         </div>
 
 
+        {/* Messages */}
+
         {message && (
-          <div className="mt-6 rounded-xl border border-emerald-400/20 bg-emerald-400/10 px-5 py-4 text-sm text-emerald-300">
+          <div className="mt-6 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-5 py-4 text-sm text-emerald-600 dark:text-emerald-300">
             {message}
           </div>
         )}
 
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-400/20 bg-red-400/10 px-5 py-4 text-sm text-red-300">
+          <div className="mt-6 rounded-xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-sm text-red-600 dark:text-red-300">
             {error}
           </div>
         )}
 
 
+        {/* Add / Edit Form */}
+
         {showForm && (
           <form
             onSubmit={handleSubmit}
-            className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6"
+            className="mt-8 rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] p-6 shadow-sm transition-colors duration-200"
           >
 
             <div className="flex items-center justify-between">
 
               <div>
 
-                <h2 className="font-semibold">
+                <h2 className="font-semibold text-[var(--text-primary)]">
                   {editingId
                     ? 'Edit Foreign Asset'
                     : 'Add Foreign Asset'}
                 </h2>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="mt-1 text-sm text-[var(--text-muted)]">
                   Enter the asset information used for your compliance analysis.
                 </p>
 
@@ -409,6 +413,7 @@ function ForeignAssets() {
                 required
               />
 
+
               <Select
                 label="Asset Type"
                 name="asset_type"
@@ -424,6 +429,7 @@ function ForeignAssets() {
                 ]}
               />
 
+
               <Input
                 label="Country"
                 name="country"
@@ -432,6 +438,7 @@ function ForeignAssets() {
                 placeholder="United States"
                 required
               />
+
 
               <Input
                 label="Institution / Broker"
@@ -442,6 +449,7 @@ function ForeignAssets() {
                 required
               />
 
+
               <Input
                 label="Currency"
                 name="currency"
@@ -451,6 +459,7 @@ function ForeignAssets() {
                 required
               />
 
+
               <Input
                 label="Acquisition Date"
                 name="acquisition_date"
@@ -459,6 +468,7 @@ function ForeignAssets() {
                 onChange={handleChange}
                 required
               />
+
 
               <Input
                 label="Peak Value"
@@ -472,6 +482,7 @@ function ForeignAssets() {
                 required
               />
 
+
               <Input
                 label="Current Value"
                 name="current_value"
@@ -484,6 +495,7 @@ function ForeignAssets() {
                 required
               />
 
+
               <Input
                 label="Dividend Income"
                 name="dividend_income"
@@ -494,6 +506,7 @@ function ForeignAssets() {
                 onChange={handleChange}
                 placeholder="120"
               />
+
 
               <Input
                 label="Foreign Tax Paid"
@@ -514,15 +527,16 @@ function ForeignAssets() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="rounded-lg border border-white/10 px-4 py-2.5 text-sm text-slate-300 transition hover:bg-white/[0.05]"
+                className="rounded-lg border border-[var(--border-primary)] px-4 py-2.5 text-sm text-[var(--text-secondary)] transition hover:bg-[var(--surface-hover)]"
               >
                 Cancel
               </button>
 
+
               <button
                 type="submit"
                 disabled={saving}
-                className="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-[#080a0c] transition hover:bg-slate-200 disabled:opacity-60"
+                className="rounded-lg bg-[var(--text-primary)] px-5 py-2.5 text-sm font-semibold text-[var(--bg-primary)] transition hover:opacity-85 disabled:opacity-60"
               >
                 {saving
                   ? 'Saving...'
@@ -537,6 +551,8 @@ function ForeignAssets() {
         )}
 
 
+        {/* Summary */}
+
         <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
 
           <SummaryCard
@@ -546,45 +562,58 @@ function ForeignAssets() {
             }
           />
 
+
           <SummaryCard
             label="Current Value"
-            value={summary?.total_current_value}
+            value={
+              summary?.total_current_value
+            }
           />
+
 
           <SummaryCard
             label="Peak Value"
-            value={summary?.total_peak_value}
+            value={
+              summary?.total_peak_value
+            }
           />
+
 
           <SummaryCard
             label="Dividend Income"
-            value={summary?.total_dividend_income}
+            value={
+              summary?.total_dividend_income
+            }
           />
 
         </div>
 
 
-        <div className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
+        {/* Asset Register */}
 
-          <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
+        <div className="mt-8 overflow-hidden rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] shadow-sm transition-colors duration-200">
+
+          <div className="flex items-center justify-between border-b border-[var(--border-primary)] px-6 py-5">
 
             <div>
 
-              <h2 className="font-semibold">
+              <h2 className="font-semibold text-[var(--text-primary)]">
                 Foreign Asset Register
               </h2>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-[var(--text-muted)]">
                 Assets currently recorded in CapTax AI.
               </p>
 
             </div>
 
+
             <button
               onClick={loadAssets}
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-slate-300 transition hover:bg-white/[0.08]"
+              className="inline-flex items-center gap-2 rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-3 py-2 text-sm text-[var(--text-secondary)] transition hover:bg-[var(--surface-hover)] disabled:opacity-60"
             >
+
               <RefreshCw
                 size={15}
                 className={
@@ -595,6 +624,7 @@ function ForeignAssets() {
               />
 
               Refresh
+
             </button>
 
           </div>
@@ -606,10 +636,10 @@ function ForeignAssets() {
 
               <RefreshCw
                 size={22}
-                className="mx-auto animate-spin text-slate-500"
+                className="mx-auto animate-spin text-[var(--text-muted)]"
               />
 
-              <p className="mt-3 text-sm text-slate-500">
+              <p className="mt-3 text-sm text-[var(--text-muted)]">
                 Loading foreign assets...
               </p>
 
@@ -621,14 +651,14 @@ function ForeignAssets() {
 
               <Globe2
                 size={34}
-                className="mx-auto text-slate-600"
+                className="mx-auto text-[var(--text-muted)]"
               />
 
-              <p className="mt-4 text-slate-300">
+              <p className="mt-4 text-[var(--text-secondary)]">
                 No foreign assets recorded.
               </p>
 
-              <p className="mt-2 text-sm text-slate-500">
+              <p className="mt-2 text-sm text-[var(--text-muted)]">
                 Add a foreign investment or account to begin.
               </p>
 
@@ -640,9 +670,9 @@ function ForeignAssets() {
 
               <table className="w-full min-w-[1150px] text-left text-sm">
 
-                <thead className="border-b border-white/10 bg-white/[0.02]">
+                <thead className="border-b border-[var(--border-primary)] bg-[var(--surface-secondary)]">
 
-                  <tr className="text-xs uppercase tracking-wider text-slate-500">
+                  <tr className="text-xs uppercase tracking-wider text-[var(--text-muted)]">
 
                     <th className="px-6 py-4">
                       Asset
@@ -689,30 +719,31 @@ function ForeignAssets() {
                 </thead>
 
 
-                <tbody className="divide-y divide-white/[0.06]">
+                <tbody className="divide-y divide-[var(--border-secondary)]">
 
                   {assets.map(
                     (asset) => (
 
                       <tr
                         key={asset.id}
-                        className="transition hover:bg-white/[0.025]"
+                        className="transition hover:bg-[var(--surface-hover)]"
                       >
 
                         <td className="px-6 py-4">
 
                           <div className="flex items-center gap-3">
 
-                            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04]">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)]">
 
                               <Building2
                                 size={16}
-                                className="text-emerald-400"
+                                className="text-[var(--accent)]"
                               />
 
                             </div>
 
-                            <span className="font-semibold text-white">
+
+                            <span className="font-semibold text-[var(--text-primary)]">
                               {asset.asset_name}
                             </span>
 
@@ -720,37 +751,46 @@ function ForeignAssets() {
 
                         </td>
 
-                        <td className="px-6 py-4 text-slate-400">
+
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
                           {asset.asset_type}
                         </td>
 
-                        <td className="px-6 py-4 text-slate-400">
+
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
                           {asset.country}
                         </td>
 
-                        <td className="px-6 py-4 text-slate-400">
+
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
                           {asset.institution}
                         </td>
 
-                        <td className="px-6 py-4 text-slate-400">
+
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
                           {asset.currency}
                         </td>
 
-                        <td className="px-6 py-4 font-medium text-slate-300">
-                          {asset.current_value.toFixed(2)}
+
+                        <td className="px-6 py-4 font-medium text-[var(--text-primary)]">
+                          {formatAssetCurrency(asset.current_value, asset.currency)}
                         </td>
 
-                        <td className="px-6 py-4 text-slate-300">
-                          {asset.peak_value.toFixed(2)}
+
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
+                          {formatAssetCurrency(asset.peak_value, asset.currency)}
                         </td>
 
-                        <td className="px-6 py-4 text-emerald-400">
-                          {asset.dividend_income.toFixed(2)}
+
+                        <td className="px-6 py-4 text-emerald-600 dark:text-emerald-400">
+                          {formatAssetCurrency(asset.dividend_income, asset.currency)}
                         </td>
 
-                        <td className="px-6 py-4 text-slate-300">
-                          {asset.foreign_tax_paid.toFixed(2)}
+
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
+                          {formatAssetCurrency(asset.foreign_tax_paid, asset.currency)}
                         </td>
+
 
                         <td className="px-6 py-4">
 
@@ -760,7 +800,7 @@ function ForeignAssets() {
                               onClick={() =>
                                 handleEdit(asset)
                               }
-                              className="rounded-lg border border-white/10 p-2 text-slate-400 transition hover:bg-white/[0.06] hover:text-white"
+                              className="rounded-lg border border-[var(--border-primary)] p-2 text-[var(--text-secondary)] transition hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]"
                               title="Edit"
                             >
                               <Pencil
@@ -768,13 +808,14 @@ function ForeignAssets() {
                               />
                             </button>
 
+
                             <button
                               onClick={() =>
                                 handleDelete(
                                   asset.id
                                 )
                               }
-                              className="rounded-lg border border-red-400/10 p-2 text-red-400 transition hover:bg-red-400/10"
+                              className="rounded-lg border border-red-500/10 p-2 text-red-500 transition hover:bg-red-500/10"
                               title="Delete"
                             >
                               <Trash2
@@ -816,13 +857,14 @@ function Input({
   return (
     <label className="block">
 
-      <span className="mb-2 block text-sm text-slate-400">
+      <span className="mb-2 block text-sm text-[var(--text-secondary)]">
         {label}
       </span>
 
+
       <input
         {...props}
-        className="w-full rounded-lg border border-white/10 bg-[#0b0d0f] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-emerald-400/40"
+        className="w-full rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-4 py-3 text-sm text-[var(--text-primary)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--accent)]/50"
       />
 
     </label>
@@ -839,13 +881,14 @@ function Select({
   return (
     <label className="block">
 
-      <span className="mb-2 block text-sm text-slate-400">
+      <span className="mb-2 block text-sm text-[var(--text-secondary)]">
         {label}
       </span>
 
+
       <select
         {...props}
-        className="w-full rounded-lg border border-white/10 bg-[#0b0d0f] px-4 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40"
+        className="w-full rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-4 py-3 text-sm text-[var(--text-primary)] outline-none transition focus:border-[var(--accent)]/50"
       >
 
         {options.map(
@@ -872,13 +915,13 @@ function SummaryCard({
 }) {
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+    <div className="rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] p-5 shadow-sm transition-colors duration-200">
 
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-[var(--text-muted)]">
         {label}
       </p>
 
-      <p className="mt-3 text-2xl font-semibold tracking-tight text-white">
+      <p className="mt-3 text-2xl font-semibold tracking-tight text-[var(--text-primary)]">
         {value === undefined ||
         value === null
           ? '0.00'

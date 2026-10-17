@@ -3,33 +3,33 @@ import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
-    <footer className="border-t border-white/[0.08] bg-[#08090b]">
+    <footer className="border-t border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-[#08090b]">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
 
         <div className="flex flex-col gap-10 py-12 md:flex-row md:items-center md:justify-between">
 
           {/* Brand */}
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-400/20 bg-emerald-400/[0.05]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-600/10 dark:border-emerald-400/20 bg-emerald-600/[0.05] dark:bg-emerald-400/[0.05]">
               <ShieldCheck
                 size={17}
-                className="text-emerald-400"
+                className="text-emerald-700 dark:text-emerald-400"
               />
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-slate-200">
-                CapTax <span className="text-emerald-400">AI</span>
+              <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                CapTax <span className="text-emerald-700 dark:text-emerald-400">AI</span>
               </p>
 
-              <p className="mt-0.5 text-[9px] uppercase tracking-[0.2em] text-slate-600">
+              <p className="mt-0.5 text-[9px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-600">
                 Investment tax intelligence
               </p>
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="flex flex-wrap gap-x-7 gap-y-3 text-sm text-slate-500">
+          <nav className="flex flex-wrap gap-x-7 gap-y-3 text-sm text-slate-600 dark:text-slate-500">
 
             <a
               href="#platform"
@@ -62,9 +62,9 @@ function Footer() {
           </nav>
         </div>
 
-        <div className="border-t border-white/[0.07] py-7">
+        <div className="border-t border-slate-200 dark:border-white/[0.07] py-7">
 
-          <div className="flex flex-col gap-3 text-xs leading-5 text-slate-600 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-3 text-xs leading-5 text-slate-500 dark:text-slate-600 md:flex-row md:items-center md:justify-between">
 
             <p className="max-w-3xl">
               CapTax AI is an academic software prototype developed for

@@ -1,4 +1,13 @@
 from pydantic import BaseModel
+from typing import List
+
+
+class DashboardForeignCurrencyTotal(BaseModel):
+    currency: str
+    current_value: float
+    peak_value: float
+    dividend_income: float
+    foreign_tax_paid: float
 
 
 class DashboardSummary(BaseModel):

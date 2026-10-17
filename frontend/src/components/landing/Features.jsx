@@ -56,7 +56,7 @@ function Features() {
   return (
     <section
       id="platform"
-      className="border-t border-white/[0.08] bg-[#090b0d]"
+      className="border-t border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-[#090b0d]"
     >
       <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8 lg:py-28">
 
@@ -64,15 +64,15 @@ function Features() {
 
           {/* Intro */}
           <div className="max-w-xl">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-emerald-400">
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-emerald-700 dark:text-emerald-400">
               The platform
             </p>
 
-            <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-0.035em] text-white sm:text-5xl">
+            <h2 className="text-4xl font-semibold leading-[1.05] tracking-[-0.035em] text-slate-900 dark:text-white sm:text-5xl">
               Built for the complexity behind modern investing.
             </h2>
 
-            <p className="mt-7 max-w-lg text-base leading-7 text-slate-400">
+            <p className="mt-7 max-w-lg text-base leading-7 text-slate-600 dark:text-slate-400">
               CapTax AI brings fragmented investment data, calculation
               workflows, and intelligent analysis into one system.
             </p>
@@ -87,34 +87,34 @@ function Features() {
               return (
                 <div
                   key={feature.number}
-                  className="group relative min-h-[225px] rounded-xl border border-white/[0.10] bg-[#0d1113] p-6 transition duration-300 hover:-translate-y-0.5 hover:border-emerald-400/25 hover:bg-[#111618]"
+                  className="group relative min-h-[225px] rounded-xl border border-slate-200 dark:border-white/[0.10] bg-slate-100 dark:bg-[#0d1113] p-6 transition duration-300 hover:-translate-y-0.5 hover:border-emerald-400/25 hover:bg-slate-200 dark:bg-[#111618]"
                 >
 
                   <div className="flex items-start justify-between">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-emerald-400/20 bg-emerald-400/[0.06]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-emerald-600/10 dark:border-emerald-400/20 bg-emerald-600/[0.06] dark:bg-emerald-400/[0.06]">
                       <Icon
                         size={18}
                         strokeWidth={1.7}
-                        className="text-emerald-400"
+                        className="text-emerald-700 dark:text-emerald-400"
                       />
                     </div>
 
-                    <span className="text-[10px] tracking-widest text-slate-600">
+                    <span className="text-[10px] tracking-widest text-slate-500 dark:text-slate-600">
                       {feature.number}
                     </span>
                   </div>
 
                   <div className="mt-7">
-                    <h3 className="text-[16px] font-semibold text-slate-100">
+                    <h3 className="text-[16px] font-semibold text-slate-900 dark:text-slate-100">
                       {feature.title}
                     </h3>
 
-                    <p className="mt-3 text-sm leading-6 text-slate-400">
+                    <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
                       {feature.description}
                     </p>
                   </div>
 
-                  <div className="absolute bottom-0 left-6 h-px w-0 bg-emerald-400 transition-all duration-500 group-hover:w-12" />
+                  <div className="absolute bottom-0 left-6 h-px w-0 bg-emerald-600 dark:bg-emerald-400 transition-all duration-500 group-hover:w-12" />
 
                 </div>
               )

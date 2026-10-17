@@ -7,6 +7,8 @@ function Register() {
   const navigate = useNavigate()
 
   const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
+  const [mobile, setMobile] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -19,8 +21,10 @@ function Register() {
 
     try {
       await register({
-        name,
-        email,
+        name: name.trim(),
+        username: username.trim(),
+        mobile: mobile.trim(),
+        email: email.trim().toLowerCase(),
         password,
       })
 
@@ -36,37 +40,55 @@ function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
+    <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)] px-6 text-[var(--text-primary)] transition-colors duration-200">
+
       <div className="w-full max-w-md">
+
         <div className="mb-8 text-center">
-          <Link to="/" className="text-2xl font-bold">
-            CapTax <span className="text-emerald-400">AI</span>
+
+          <Link
+            to="/"
+            className="text-2xl font-bold text-[var(--text-primary)]"
+          >
+            CapTax{' '}
+            <span className="text-[var(--accent)]">
+              AI
+            </span>
           </Link>
 
-          <h1 className="mt-6 text-3xl font-bold">
+
+          <h1 className="mt-6 text-3xl font-bold text-[var(--text-primary)]">
             Create your account
           </h1>
 
-          <p className="mt-2 text-slate-400">
+
+          <p className="mt-2 text-[var(--text-secondary)]">
             Start managing your tax data with CapTax AI.
           </p>
+
         </div>
+
 
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-white/10 bg-white/[0.04] p-6"
+          className="rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] p-6 shadow-sm transition-colors duration-200"
         >
+
           {error && (
-            <div className="mb-5 rounded-lg border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-300">
+            <div className="mb-5 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-600 dark:text-red-300">
               {error}
             </div>
           )}
 
+
           <div className="space-y-4">
+
             <div>
-              <label className="mb-2 block text-sm text-slate-300">
+
+              <label className="mb-2 block text-sm text-[var(--text-secondary)]">
                 Full name
               </label>
+
 
               <input
                 type="text"
@@ -74,29 +96,67 @@ function Register() {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your name"
                 required
-                className="w-full rounded-lg border border-white/10 bg-white/[0.05] px-4 py-3 text-white outline-none placeholder:text-slate-600 focus:border-emerald-400/50"
+                className="w-full rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-4 py-3 text-[var(--text-primary)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/30"
+              />
+
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm text-[var(--text-secondary)]">Username</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value.replace(/\s/g, ''))}
+                placeholder="Choose a username"
+                minLength={3}
+                maxLength={30}
+                autoComplete="username"
+                required
+                className="w-full rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-4 py-3 text-[var(--text-primary)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/30"
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-slate-300">
+              <label className="mb-2 block text-sm text-[var(--text-secondary)]">Mobile number</label>
+              <input
+                type="tel"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value.replace(/[^0-9+() -]/g, ''))}
+                placeholder="Enter mobile number"
+                minLength={10}
+                maxLength={16}
+                autoComplete="tel"
+                required
+                className="w-full rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-4 py-3 text-[var(--text-primary)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/30"
+              />
+            </div>
+
+            <div>
+
+              <label className="mb-2 block text-sm text-[var(--text-secondary)]">
                 Email
               </label>
 
+
               <input
                 type="email"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full rounded-lg border border-white/10 bg-white/[0.05] px-4 py-3 text-white outline-none placeholder:text-slate-600 focus:border-emerald-400/50"
+                className="w-full rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-4 py-3 text-[var(--text-primary)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/30"
               />
+
             </div>
 
+
             <div>
-              <label className="mb-2 block text-sm text-slate-300">
+
+              <label className="mb-2 block text-sm text-[var(--text-secondary)]">
                 Password
               </label>
+
 
               <input
                 type="password"
@@ -105,32 +165,43 @@ function Register() {
                 placeholder="Minimum 8 characters"
                 minLength={8}
                 required
-                className="w-full rounded-lg border border-white/10 bg-white/[0.05] px-4 py-3 text-white outline-none placeholder:text-slate-600 focus:border-emerald-400/50"
+                className="w-full rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-4 py-3 text-[var(--text-primary)] outline-none transition placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]/30"
               />
+
             </div>
+
           </div>
+
 
           <button
             type="submit"
             disabled={loading}
-            className="mt-6 w-full rounded-lg bg-white px-4 py-3 font-semibold text-slate-950 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-6 w-full rounded-lg bg-[var(--text-primary)] px-4 py-3 font-semibold text-[var(--bg-primary)] transition hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {loading ? 'Creating account...' : 'Create account'}
+            {loading
+              ? 'Creating account...'
+              : 'Create account'}
           </button>
 
-          <p className="mt-6 text-center text-sm text-slate-400">
+
+          <p className="mt-6 text-center text-sm text-[var(--text-secondary)]">
             Already have an account?{' '}
+
             <Link
               to="/login"
-              className="text-emerald-400 hover:text-emerald-300"
+              className="font-medium text-[var(--accent)] transition hover:opacity-80"
             >
               Sign in
             </Link>
+
           </p>
+
         </form>
+
       </div>
+
     </div>
   )
 }
 
-export default Register
+export default Register 

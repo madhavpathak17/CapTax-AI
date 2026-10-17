@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
+
 import {
   ArrowLeft,
   FileSpreadsheet,
   RefreshCw,
   Upload,
 } from 'lucide-react'
+
 import { useNavigate } from 'react-router-dom'
 
 import api from '../services/api'
@@ -26,16 +28,22 @@ function Transactions() {
       setLoading(true)
       setError('')
 
-      const response = await api.get('/transactions/')
+      const response =
+        await api.get('/transactions/')
 
       setTransactions(response.data || [])
+
     } catch (error) {
-      console.error('Failed to load transactions:', error)
+      console.error(
+        'Failed to load transactions:',
+        error
+      )
 
       setError(
         error.response?.data?.detail ||
         'Unable to load transactions.'
       )
+
     } finally {
       setLoading(false)
     }
@@ -63,28 +71,35 @@ function Transactions() {
 
       formData.append('file', file)
 
-      const response = await api.post(
-        '/transactions/upload',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      )
+      const response =
+        await api.post(
+          '/transactions/upload',
+          formData,
+          {
+            headers: {
+              'Content-Type':
+                'multipart/form-data',
+            },
+          }
+        )
 
       setMessage(
         `${response.data.message} ${response.data.inserted_count} transactions imported.`
       )
 
       await loadTransactions()
+
     } catch (error) {
-      console.error('Upload failed:', error)
+      console.error(
+        'Upload failed:',
+        error
+      )
 
       setError(
         error.response?.data?.detail ||
         'Transaction upload failed.'
       )
+
     } finally {
       setUploading(false)
 
@@ -95,21 +110,24 @@ function Transactions() {
   }
 
 
-  const totalTransactions = transactions.length
+  const totalTransactions =
+    transactions.length
 
-  const buyTransactions = transactions.filter(
-    (transaction) =>
-      transaction.transaction_type === 'BUY'
-  ).length
+  const buyTransactions =
+    transactions.filter(
+      (transaction) =>
+        transaction.transaction_type === 'BUY'
+    ).length
 
-  const sellTransactions = transactions.filter(
-    (transaction) =>
-      transaction.transaction_type === 'SELL'
-  ).length
+  const sellTransactions =
+    transactions.filter(
+      (transaction) =>
+        transaction.transaction_type === 'SELL'
+    ).length
 
 
   return (
-    <div className="min-h-screen bg-[#080a0c] px-6 py-10 text-white lg:px-10">
+    <div className="min-h-screen bg-[var(--bg-primary)] px-6 py-10 text-[var(--text-primary)] transition-colors duration-200 lg:px-10">
 
       <div className="mx-auto max-w-7xl">
 
@@ -120,23 +138,28 @@ function Transactions() {
           <div>
 
             <button
-              onClick={() => navigate('/dashboard')}
-              className="mb-5 inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white"
+              onClick={() =>
+                navigate('/dashboard')
+              }
+              className="mb-5 inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] transition hover:text-[var(--text-primary)]"
             >
               <ArrowLeft size={16} />
 
               Back to Dashboard
             </button>
 
-            <p className="text-sm font-medium text-emerald-400">
+
+            <p className="text-sm font-medium text-[var(--accent)]">
               Portfolio
             </p>
 
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--text-primary)]">
               Transactions
             </h1>
 
-            <p className="mt-2 text-sm text-slate-400">
+
+            <p className="mt-2 text-sm text-[var(--text-secondary)]">
               Review and manage your imported broker transactions.
             </p>
 
@@ -146,9 +169,11 @@ function Transactions() {
           <div>
 
             <button
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() =>
+                fileInputRef.current?.click()
+              }
               disabled={uploading}
-              className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-[#080a0c] transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-lg bg-[var(--text-primary)] px-5 py-3 text-sm font-semibold text-[var(--bg-primary)] transition hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-60"
             >
 
               <Upload size={16} />
@@ -159,6 +184,7 @@ function Transactions() {
               }
 
             </button>
+
 
             <input
               ref={fileInputRef}
@@ -176,14 +202,14 @@ function Transactions() {
         {/* Messages */}
 
         {message && (
-          <div className="mt-6 rounded-xl border border-emerald-400/20 bg-emerald-400/10 px-5 py-4 text-sm text-emerald-300">
+          <div className="mt-6 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-5 py-4 text-sm text-emerald-600 dark:text-emerald-300">
             {message}
           </div>
         )}
 
 
         {error && (
-          <div className="mt-6 rounded-xl border border-red-400/20 bg-red-400/10 px-5 py-4 text-sm text-red-300">
+          <div className="mt-6 rounded-xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-sm text-red-600 dark:text-red-300">
             {error}
           </div>
         )}
@@ -213,17 +239,17 @@ function Transactions() {
 
         {/* Transaction Table */}
 
-        <div className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
+        <div className="mt-8 overflow-hidden rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] shadow-sm transition-colors duration-200">
 
-          <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
+          <div className="flex items-center justify-between border-b border-[var(--border-primary)] px-6 py-5">
 
             <div>
 
-              <h2 className="font-semibold">
+              <h2 className="font-semibold text-[var(--text-primary)]">
                 Transaction History
               </h2>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-[var(--text-muted)]">
                 All transactions imported into CapTax AI
               </p>
 
@@ -233,12 +259,16 @@ function Transactions() {
             <button
               onClick={loadTransactions}
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-slate-300 transition hover:bg-white/[0.08]"
+              className="inline-flex items-center gap-2 rounded-lg border border-[var(--border-primary)] bg-[var(--surface-secondary)] px-3 py-2 text-sm text-[var(--text-secondary)] transition hover:bg-[var(--surface-hover)] disabled:opacity-60"
             >
 
               <RefreshCw
                 size={15}
-                className={loading ? 'animate-spin' : ''}
+                className={
+                  loading
+                    ? 'animate-spin'
+                    : ''
+                }
               />
 
               Refresh
@@ -254,10 +284,10 @@ function Transactions() {
 
               <RefreshCw
                 size={22}
-                className="mx-auto animate-spin text-slate-500"
+                className="mx-auto animate-spin text-[var(--text-muted)]"
               />
 
-              <p className="mt-3 text-sm text-slate-500">
+              <p className="mt-3 text-sm text-[var(--text-muted)]">
                 Loading transactions...
               </p>
 
@@ -269,14 +299,14 @@ function Transactions() {
 
               <FileSpreadsheet
                 size={34}
-                className="mx-auto text-slate-600"
+                className="mx-auto text-[var(--text-muted)]"
               />
 
-              <p className="mt-4 text-slate-300">
+              <p className="mt-4 text-[var(--text-secondary)]">
                 No transactions found.
               </p>
 
-              <p className="mt-2 text-sm text-slate-500">
+              <p className="mt-2 text-sm text-[var(--text-muted)]">
                 Upload a CSV or Excel broker statement to get started.
               </p>
 
@@ -288,9 +318,9 @@ function Transactions() {
 
               <table className="w-full min-w-[900px] text-left text-sm">
 
-                <thead className="border-b border-white/10 bg-white/[0.02]">
+                <thead className="border-b border-[var(--border-primary)] bg-[var(--surface-secondary)]">
 
-                  <tr className="text-xs uppercase tracking-wider text-slate-500">
+                  <tr className="text-xs uppercase tracking-wider text-[var(--text-muted)]">
 
                     <th className="px-6 py-4">
                       Date
@@ -333,88 +363,92 @@ function Transactions() {
                 </thead>
 
 
-                <tbody className="divide-y divide-white/[0.06]">
+                <tbody className="divide-y divide-[var(--border-secondary)]">
 
-                  {transactions.map((transaction) => (
+                  {transactions.map(
+                    (transaction) => (
 
-                    <tr
-                      key={transaction.id}
-                      className="transition hover:bg-white/[0.025]"
-                    >
+                      <tr
+                        key={transaction.id}
+                        className="transition hover:bg-[var(--surface-hover)]"
+                      >
 
-                      <td className="whitespace-nowrap px-6 py-4 text-slate-300">
+                        <td className="whitespace-nowrap px-6 py-4 text-[var(--text-secondary)]">
 
-                        {formatDate(transaction.date)}
+                          {formatDate(
+                            transaction.date
+                          )}
 
-                      </td>
-
-
-                      <td className="px-6 py-4 font-semibold text-white">
-
-                        {transaction.symbol}
-
-                      </td>
+                        </td>
 
 
-                      <td className="px-6 py-4 text-slate-400">
+                        <td className="px-6 py-4 font-semibold text-[var(--text-primary)]">
 
-                        {transaction.asset_type}
+                          {transaction.symbol}
 
-                      </td>
-
-
-                      <td className="px-6 py-4">
-
-                        <span
-                          className={
-                            transaction.transaction_type === 'BUY'
-                              ? 'font-medium text-emerald-400'
-                              : 'font-medium text-red-400'
-                          }
-                        >
-                          {transaction.transaction_type}
-                        </span>
-
-                      </td>
+                        </td>
 
 
-                      <td className="px-6 py-4 text-slate-300">
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
 
-                        {transaction.quantity}
+                          {transaction.asset_type}
 
-                      </td>
-
-
-                      <td className="px-6 py-4 text-slate-300">
-
-                        {transaction.price}
-
-                      </td>
+                        </td>
 
 
-                      <td className="px-6 py-4 text-slate-400">
+                        <td className="px-6 py-4">
 
-                        {transaction.currency}
+                          <span
+                            className={
+                              transaction.transaction_type === 'BUY'
+                                ? 'font-medium text-emerald-600 dark:text-emerald-400'
+                                : 'font-medium text-red-600 dark:text-red-400'
+                            }
+                          >
+                            {transaction.transaction_type}
+                          </span>
 
-                      </td>
+                        </td>
 
 
-                      <td className="px-6 py-4 text-slate-400">
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
 
-                        {transaction.broker}
+                          {transaction.quantity}
 
-                      </td>
+                        </td>
 
 
-                      <td className="px-6 py-4 font-medium text-slate-300">
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
 
-                        {transaction.total_value}
+                          {transaction.price}
 
-                      </td>
+                        </td>
 
-                    </tr>
 
-                  ))}
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
+
+                          {transaction.currency}
+
+                        </td>
+
+
+                        <td className="px-6 py-4 text-[var(--text-secondary)]">
+
+                          {transaction.broker}
+
+                        </td>
+
+
+                        <td className="px-6 py-4 font-medium text-[var(--text-primary)]">
+
+                          {transaction.total_value}
+
+                        </td>
+
+                      </tr>
+
+                    )
+                  )}
 
                 </tbody>
 
@@ -433,22 +467,23 @@ function Transactions() {
 }
 
 
-function StatCard({ label, value }) {
+function StatCard({
+  label,
+  value,
+}) {
 
   return (
+    <div className="rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] p-5 shadow-sm transition-colors duration-200">
 
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-[var(--text-muted)]">
         {label}
       </p>
 
-      <p className="mt-3 text-3xl font-semibold tracking-tight">
+      <p className="mt-3 text-3xl font-semibold tracking-tight text-[var(--text-primary)]">
         {value}
       </p>
 
     </div>
-
   )
 }
 
@@ -459,17 +494,25 @@ function formatDate(date) {
     return '—'
   }
 
-  const parsedDate = new Date(date)
+  const parsedDate =
+    new Date(date)
 
-  if (Number.isNaN(parsedDate.getTime())) {
+  if (
+    Number.isNaN(
+      parsedDate.getTime()
+    )
+  ) {
     return date
   }
 
-  return parsedDate.toLocaleDateString('en-IN', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  })
+  return parsedDate.toLocaleDateString(
+    'en-IN',
+    {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    }
+  )
 }
 
 

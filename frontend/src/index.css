@@ -1,17 +1,97 @@
 @import "tailwindcss";
 
-:root {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
 
-  color: #e7e9ed;
-  background: #08090b;
+/* =========================================================
+   CAPTAX AI GLOBAL THEME
+   ========================================================= */
+
+:root {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color-scheme: light;
+
+  /* Light application theme */
+  --bg-primary: #f5f7fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eef1f4;
+
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+
+  --border-primary: #dfe3e8;
+  --border-secondary: #e5e7eb;
+
+  --surface-primary: #ffffff;
+  --surface-secondary: #f8fafc;
+  --surface-hover: #f1f5f9;
+
+  --accent: #059669;
+  --accent-light: #10b981;
+  --accent-soft: rgba(5, 150, 105, 0.12);
+
+  --selection-bg: rgba(5, 150, 105, 0.18);
+  --selection-text: #064e3b;
+
+  --scrollbar-track: #f1f3f5;
+  --scrollbar-thumb: #cbd1d8;
+  --scrollbar-thumb-hover: #aeb5bd;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+/* =========================================================
+   DARK APPLICATION THEME
+   ========================================================= */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --bg-primary: #08090b;
+    --bg-secondary: #0b0d0f;
+    --bg-tertiary: #111418;
+
+    --text-primary: #e7e9ed;
+    --text-secondary: #a7adb7;
+    --text-muted: #7d848e;
+
+    --border-primary: rgba(255, 255, 255, 0.09);
+    --border-secondary: rgba(255, 255, 255, 0.06);
+
+    --surface-primary: #0d1013;
+    --surface-secondary: #111418;
+    --surface-hover: #171b20;
+
+    --accent: #34d399;
+    --accent-light: #6ee7b7;
+    --accent-soft: rgba(52, 211, 153, 0.12);
+
+    --selection-bg: rgba(52, 211, 153, 0.20);
+    --selection-text: #f8fafc;
+
+    --scrollbar-track: #08090b;
+    --scrollbar-thumb: #25282d;
+    --scrollbar-thumb-hover: #34383f;
+  }
+}
+
+
+/* =========================================================
+   GLOBAL RESET
+   ========================================================= */
 
 * {
   box-sizing: border-box;
@@ -19,50 +99,115 @@
 
 html {
   scroll-behavior: smooth;
-  background: #08090b;
+
+  background: var(--bg-primary);
+  color: var(--text-primary);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
 }
 
 body {
   margin: 0;
+
   min-width: 320px;
   min-height: 100vh;
-  background: #08090b;
+
+  background: var(--bg-primary);
+  color: var(--text-primary);
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
+
 
 button,
 a,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
+
 
 a {
   color: inherit;
   text-decoration: none;
 }
 
+
 button {
   cursor: pointer;
 }
 
-::selection {
-  background: rgba(52, 211, 153, 0.2);
-  color: #f8fafc;
+
+input,
+textarea,
+select {
+  color: var(--text-primary);
+  background-color: var(--surface-primary);
+  border-color: var(--border-primary);
 }
+
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
 
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
+
 
 ::-webkit-scrollbar-track {
-  background: #08090b;
+  background: var(--scrollbar-track);
 }
 
+
 ::-webkit-scrollbar-thumb {
-  background: #25282d;
+  background: var(--scrollbar-thumb);
   border-radius: 999px;
 }
 
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #34383f;
+  background: var(--scrollbar-thumb-hover);
 }
+
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color:
+    var(--scrollbar-thumb)
+    var(--scrollbar-track);
+}
+
+
+/* =========================================================
+   LANDING PAGE
+   ---------------------------------------------------------
+   IMPORTANT:
+   Landing components intentionally keep their original
+   premium dark visual design.
+
+   Do NOT override their hardcoded colors here.
+   ========================================================= */
