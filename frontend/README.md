@@ -27,6 +27,16 @@ Key considerations include:
 - Exclusion of environment files and generated Python cache files from version control
 - Clear separation between calculated estimates and final tax filing decisions
 
+## Testing and Validation
+
+Before integrating a feature, verify that:
+
+- Transaction inputs follow the expected data format.
+- Authentication endpoints handle invalid credentials.
+- Capital gains calculations use the selected matching method.
+- Dashboard analytics display the processed transaction results.
+- Frontend pages handle API errors gracefully.
+
 
 Team Members:
 - Madhav Pathak
